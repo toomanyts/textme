@@ -1,0 +1,410 @@
+{% layout none %}
+
+<html>
+<head>
+    <!--Add your title here-->
+    <title>Too Many T's</title>
+    
+    <!--This code makes the website responsive-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  	<!--This code actives the OpenSea NFT Display feature from this GITHUB https://github.com/ProjectOpenSea/embeddable-nfts -->
+  	<script src="https://unpkg.com/embeddable-nfts/dist/nft-card.min.js"></script>
+
+    
+    <!--This is the javascript for the page-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.0.7/parsley.js"></script>
+    <script src="https://superphone.io/f/assets/javascripts/intlTelInput.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    
+    <!--This is the favicon for the browser tab-->
+    <link rel="shortcut icon" href="https://cdn.shopify.com/s/files/1/0512/4928/3271/files/1391565-200.png?v=1634292769" type="image/x-icon">
+    
+    <!--These are the stylesheets for the page-->
+    <link href="https://fonts.googleapis.com/css?family=Oswald:300" rel="stylesheet">
+  	<link href="https://fonts.googleapis.com/css?family=Bebas+Neue:300" rel="stylesheet">
+    <link rel="stylesheet" href="https://superphone.io/f/assets/stylesheets/intlTelInput.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    
+    <!--This is the actual function that calls the form widget-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+    
+            // Set up phone widget
+            $("#phone").intlTelInput({
+                utilsScript: 'https://superphone.io/f/assets/javascripts/utils.js',
+                numberType: "MOBILE",
+                nationalMode: false,
+                autoFormat: true,
+                autoPlaceholder: true
+            });
+    
+            // Click on button send
+            $('#addContact').submit(function (event) {
+                event.preventDefault();
+                var formData = $("#addContact").serializeArray();
+                $('#submitButton').prop('disabled', true);
+                $('.form-error').hide();
+    
+                // Convert the form data to backend format
+                var requestData = {};
+                formData.map(function (element) {
+                    requestData[element.name] = element.value;
+                });
+    
+                // Send post to API
+                $.ajax({
+                    url: 'https://superphone.io/w/GBmDpW', // Url where to submit the request
+                    type: "POST",
+                    beforeSend: function (request) {
+                        request.setRequestHeader("Access-Control-Allow-Origin", "*");
+                    },
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(requestData),
+                    success: function (result) {
+                        // You can see the result from the console
+                        // tab of the developer tools
+                        fbq('track', 'Subscribe');
+                        $('.custom-form').hide();
+                        $('.form-success').show();
+                    },
+                    error: function (xhr, resp, text) {
+                        $('.form-error').show();
+                        $('#submitButton').prop('disabled', false);
+                    }
+                });
+            });
+        });
+    </script>
+
+    
+    <!--This sets the color scheme and font style of the page-->
+    <style>
+    body {
+    background: linear-gradient(to bottom, #000000 50%, #101010 100%);
+    color: white;
+      text-shadow: 1px 1px 1px #000000;
+        }
+
+     .page-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-image: url("https://cdn.shopify.com/s/files/1/0512/4928/3271/files/BLJZFVNOLB8O5OFL1ST8.jpg?v=1634293092");
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: cover;
+        }
+        
+        *{
+	font-family: 'Oswald', sans-serif;
+        }    
+
+    button#submitButton {
+    text-transform: uppercase;
+    margin: 15px 0px;
+    width: 100%;
+    color: white;
+    padding: 8px 45px;
+    font-size: 19px;
+    border: 1px solid white;
+    border-radius: 0px;
+    background: #3366ff;
+        }
+
+    button#submitButton:hover {
+    color: #3366ff;
+    background: white;
+        }
+
+    span.country-name {
+    color: black;
+    padding: 5px;
+    font-size: 16px;
+        }
+      
+    input#phone {
+    letter-spacing: 1px;
+    color: white;
+    border: 0px;
+    border-bottom: 2px solid white;
+    background: black;
+    padding: 26px 46px;
+    font-size: 17px;
+    border-radius: 0px;
+    font-weight: 700;
+        }
+        
+    input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    height: 38px;
+        }
+    
+    .form-error {
+    padding-left: 12px;
+    display: none;
+    color: #D85959;
+        }
+    
+    .form-success {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: -2px;
+    display: none;
+        }
+    
+    .parsley-required {
+    padding-top: 5px;
+    color: #D85959;
+        }
+    
+    .parsley-minlength {
+    padding-top: 5px;
+    color: #ffffff;
+        }
+    
+    .iti-flag {
+     background-image: url("https://superphone.io/f/assets/images/flags.png");
+        }
+
+    input#phone:focus {
+    box-shadow: 0px 0px 0px;
+        }
+        
+    .buto {
+    text-align: center;
+        }
+        
+    .form-success {
+    background: transparent;
+    color: white;
+    font-size: 19px;
+    width: 100%;
+    text-align: center;
+    margin-top: 0px;
+        }
+        
+    .form-error {
+    color: #ffffff;
+    text-align: center;
+    margin-top: 61px;
+        }
+      
+    .live-list {
+      background: transparent;
+      
+      
+
+    </style>
+</head> 
+    
+    <!--This is the code for the actual page-->
+    <body>
+    <div class="page-center">
+    <div class="custom-form">
+        <div class="container">
+          <!-- <center><img src="https://cdn.shopify.com/s/files/1/0512/4928/3271/files/Logo.png?v=1634290877" alt="Logo" width="300"></center> -->
+          <center><a href="https://www.toomanyts.com/"><img src="https://cdn.shopify.com/s/files/1/0512/4928/3271/files/MUSIC_LOGO.png?v=1647956516" alt="Logo" width="300"></a></center>
+            <h1 class="text-center" style="font-weight: bold"></h1>
+            <p class="text-center" style="font-size: 21px">
+															<br>Yo! Welcome to our VIP list &#129351
+															<br>Here you get exclusive access to our music before anyone else.             										
+              												<br>We’ll also add you to the guestlist for our secret house parties.
+															<br>
+              												
+              												</p>
+            <form id="addContact" class="form-horizontal" style="min-width: 100%" method="POST" action="#" autocomplete="false" data-parsley-validate>
+                <div class="form-group">
+                    <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 col-lg-4 col-lg-offset-4">
+                        <input autocomplete="off" tabindex="4" type="tel" class="form-control" id="phone" name="mobile"
+                                placeholder="Mobile # (w/country code)" data-parsley-trigger="focusout"
+                                data-parsley-minlength="9" data-parsley-required>
+                    </div>
+                    <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 col-lg-4 col-lg-offset-4">
+                        <button type="submit" id="submitButton" class="btn btn-default">SUBMIT FOR FREE DOWNLOAD&#127908;</button>
+                      
+                    	<a class="btn btn-default" style="background-color: black; color: white; border-radius: 0px; border-width: 2px; font-size: 18px; width: 100%; margin-top: 13px; margin-bottom: 13px;" href="https://open.spotify.com/artist/0FgjAZMPItkvIiFPyC39Ea">SPOTIFY</a>
+                      
+                      <a class="btn btn-default" style="background-color: black; color: white; border-radius: 0px; border-width: 2px; font-size: 18px; width: 100%; margin-bottom: 13px;" href="https://music.apple.com/us/artist/too-many-ts/636252531">APPLE MUSIC</a>
+                     
+                      <a class="btn btn-default" style="background-color: black; color: white; border-radius: 0px; border-width: 2px; font-size: 18px; width: 100%; margin-bottom: 13px;" href="https://www.instagram.com/toomanyts/">INSTAGRAM</a>
+                      
+                      <a class="btn btn-default" style="background-color: black; color: white; border-radius: 0px; border-width: 2px; font-size: 18px; width: 100%; margin-bottom: 13px;" href="https://www.tiktok.com/@toomanyts">TIKTOK</a>
+                      
+                      
+                  	</div>
+                </div>
+    
+                <div class="form-group" style="padding-left: 12px">
+                    <div class="form-error container">
+                        <div class="buto">Something went wrong. Check the number and try again.</div>
+                    </div>
+                  
+           
+					
+                </div>
+            </form>
+        </div>
+    </div>
+      
+        <!-- Facebook Pixel Code -->
+    <script nonce="JKtD1Yog">
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '119108352072083');
+    fbq('track', "PageView");</script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=119108352072083&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Facebook Pixel Code -->
+
+    <!--This is the text for the success page-->
+    <div class="form-success">
+           
+      <!-- Confirmation Text
+      <h1>You're in!</h1> -->
+		     
+      <!--NFT Embed-->
+      <!--
+    <nft-card
+    contractAddress="0x2953399124f0cbb46d2cbacd8a89cf0599974963"
+    tokenId="19923221169369658426899885508066087565915975946101611351180248968794919141381">
+    </nft-card>
+    <script src="https://unpkg.com/embeddable-nfts/dist/nft-card.min.js"></script>
+      -->
+      
+      <!--
+    <nft-card
+  tokenAddress="0x2953399124F0cBB46d2CbACD8A89cF0599974963"
+  tokenId="19923221169369658426899885508066087565915975946101611351180248968794919141381"
+  network="mainnet"
+  referrerAddress="YOUR_ADDRESS_HERE"
+  >
+</nft-card>
+		-->
+      
+     <div class="container">
+      <center><a href="https://www.toomanyts.com/"><img src="https://cdn.shopify.com/s/files/1/0512/4928/3271/files/MUSIC_LOGO.png?v=1647956516" alt="Logo" width="300"></a></center>
+            <h1 class="text-center" style="font-weight: bold"></h1>
+            <p class="text-center" style="font-size: 21px">
+              
+      <!-- Cover Image -->
+      <div>
+        <center>
+          <img src="https://cdn.shopify.com/s/files/1/0512/4928/3271/files/drop_cover_1.png?v=1650451353" 
+               alt="TMT's"=
+               style="width: 30vw;"
+               margin-top="20px;"
+               >
+        
+        </center>
+      </div>
+               
+      
+      <!-- Audio Player -->
+      <div style="padding:25px;">
+		<center>
+			<audio controls>
+ 			 <source src="https://cdn.shopify.com/s/files/1/0512/4928/3271/files/02_Everything_Will_Be_Alright_ft._Greg_Blackman_prod._Jackie_Marua.mp3?v=1650451560" type="audio/mpeg">
+				Your browser does not support the audio element.
+			</audio>
+        </center>
+      </div>
+      
+      <div>
+        
+        		<a class="btn btn-default" style="background-color: #3366ff; color: white; border-radius: 0px; border-width: 2px; font-size: 18px; width: 100%; margin-top: 20px; margin-bottom: 20px;" href="https://cdn.shopify.com/s/files/1/0512/4928/3271/files/02_Everything_Will_Be_Alright_ft._Greg_Blackman_prod._Jackie_Marua.mp3?v=1650451560" download>DOWNLOAD</a>
+        
+      				<a class="btn btn-default" style="background-color: black; color: white; border-radius: 0px; border-width: 2px; font-size: 18px; width: 100%; margin-top: 13px; margin-bottom: 13px;" href="https://open.spotify.com/artist/0FgjAZMPItkvIiFPyC39Ea">SPOTIFY</a>
+                      
+                      <a class="btn btn-default" style="background-color: black; color: white; border-radius: 0px; border-width: 2px; font-size: 18px; width: 100%; margin-bottom: 13px;" href="https://music.apple.com/us/artist/too-many-ts/636252531">APPLE MUSIC</a>
+                     
+                      <a class="btn btn-default" style="background-color: black; color: white; border-radius: 0px; border-width: 2px; font-size: 18px; width: 100%; margin-bottom: 13px;" href="https://www.instagram.com/toomanyts/">INSTAGRAM</a>
+                      
+                      <a class="btn btn-default" style="background-color: black; color: white; border-radius: 0px; border-width: 2px; font-size: 18px; width: 100%; margin-bottom: 13px;" href="https://www.tiktok.com/@toomanyts">TIKTOK</a>
+                      
+      </div>
+     </div>
+      
+      <!-- Soundcloud Track Embed 
+      
+      <iframe 
+              width="50%" 
+              height="20" 
+              scrolling="no" 
+              frameborder="no" 
+              allow="autoplay" 
+              src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/687085324%3Fsecret_token%3Ds-LPg5a&color=%231980d3&inverse=false&auto_play=true&show_user=true">
+      </iframe>
+      <div style="font-size: 10px;
+                  color: #cccccc;
+                  line-break: anywhere;
+                  word-break: normal;
+                  overflow: hidden;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
+                  font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;
+                  font-weight: 100;">
+        		
+      	</div>
+      -->
+      
+      <!--
+      <iframe 
+              width="50%" 
+              height="166" 
+              scrolling="no" 
+              frameborder="no" 
+              allow="autoplay" 
+              src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/938666950&color=%231980d3&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true">
+      </iframe>
+      <div style="font-size: 10px;
+                  color: #cccccc;
+                  line-break: anywhere;
+                  word-break: normal;
+                  overflow: hidden;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
+                  font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;
+                  font-weight: 100;">
+      </div>
+		-->
+        
+        <!--
+		<a href="https://soundcloud.com/too-many-ts" 
+           title="Too Many T&#x27;s" 
+           target="_blank" 
+           style="color: #cccccc; text-decoration: none;">Too Many T&#x27;s</a> · 
+         <a href="https://soundcloud.com/too-many-ts/grew-up-in-the-90s-1" 
+			title="Grew up in the 90&#x27;s" target="_blank" style="color: #cccccc; text-decoration: none;">Grew up in the 90&#x27;s</a> 
+		--> 
+      
+     <!--Marketplace Embed
+      <iframe src='https://opensea.io/TooManyNFTs?embed=true'
+        width='100%'
+        height='100%'
+        frameborder='0'
+        allowfullscreen></iframe>
+      -->
+    
+      </div>
+      
+    
+
+    </div>
+</body>
+</html>
